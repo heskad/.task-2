@@ -14,6 +14,41 @@
 
 ---
 
+## Контроль качества
+
+### FastQC анализ
+Перед запуском основного пайплайна необходимо выполнить контроль качества с помощью FastQC в два этапа:
+
+1. **До тримминга и удаления адаптеров:**
+```bash
+fastqc -o qc/fastqc/raw/ data/raw/*.fastq
+```
+
+### Тримминг и удаление адаптеров
+После первого FastQC анализа необходимо выполнить предварительную обработку чтений с помощью Trimmomatic:
+
+```bash
+trimmomatic PE -threads {threads} \
+    data/raw/{sample}_R1.fastq data/raw/{sample}_R2.fastq \
+    qc/trimmed/{sample}_R1.trimmed.fastq qc/trimmed/{sample}_R1.unpaired.fastq \
+    qc/trimmed/{sample}_R2.trimmed.fastq qc/trimmed/{sample}_R2.unpaired.fastq \
+    ILLUMINACLIP:TruSeq3-PE-2.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:50
+```
+
+Параметры обработки:
+- `ILLUMINACLIP:TruSeq3-PE-2.fa:2:30:10` - удаление адаптеров Illumina TruSeq3
+- `SLIDINGWINDOW:4:20` - фильтрация по качеству с использованием скользящего окна
+- `MINLEN:50` - удаление чтений короче 50 нуклеотидов
+
+2. **После тримминга и удаления адаптеров:**
+```bash
+fastqc -o qc/fastqc/trimmed/ qc/trimmed/*.trimmed.fastq
+```
+
+Это позволит оценить качество данных на разных этапах обработки и убедиться в эффективности удаления адаптеров и фильтрации.
+
+---
+
 ## Установка
 
 ### Предварительные требования
@@ -29,6 +64,10 @@ cd .task-2
 cd envs
 chmod +x install_envs.sh
 ./install_envs.sh
+---
+
+Snakemake -j <"кол-во задач"> 
+
 ```
 
 

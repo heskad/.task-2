@@ -7,9 +7,6 @@ samples = pd.read_table("config/samples.tsv").set_index("sample", drop=False)
 # Правило ALL
 rule all:
     input:
-        # QC
-        expand("{output_dir}/qc/fastqc/{sample}_R1_fastqc.html", sample=samples.index),
-        expand("{output_dir}/qc/trimmed/{sample}_R1.trimmed.fastq", sample=samples.index),
         # Сборка
         "{output_dir}/assembly/final_assembly.fasta",
         # Биннинг
@@ -18,35 +15,6 @@ rule all:
         expand("{output_dir}/annotation/{sample}/prokka.gff", sample=samples.index),
         # BUSCO
         "{output_dir}/busco/short_summary.txt"
-
-# --- Контроль качества ---
-rule fastqc:
-    input:
-        r1 = lambda wildcards: samples.loc[wildcards.sample, "R1"],
-        r2 = lambda wildcards: samples.loc[wildcards.sample, "R2"]
-    output:
-        html1 = "{output_dir}/qc/fastqc/{sample}_R1_fastqc.html",
-        html2 = "{output_dir}/qc/fastqc/{sample}_R2_fastqc.html"
-    conda:
-        "envs/qc.yaml"
-    shell:
-        "fastqc {input.r1} {input.r2} -o {output_dir}/qc/fastqc/"
-
-rule trim_adapters:
-    input:
-        r1 = lambda wildcards: samples.loc[wildcards.sample, "R1"],
-        r2 = lambda wildcards: samples.loc[wildcards.sample, "R2"]
-    output:
-        r1 = "{output_dir}/qc/trimmed/{sample}_R1.trimmed.fastq",
-        r2 = "{output_dir}/qc/trimmed/{sample}_R2.trimmed.fastq"
-    conda:
-        "envs/qc.yaml"
-    shell:
-        "trimmomatic PE -threads {config[threads]} "
-        "{input.r1} {input.r2} "
-        "{output.r1} {output_dir}/qc/trimmed/{wildcards.sample}_R1.unpaired.fastq "
-        "{output.r2} {output_dir}/qc/trimmed/{wildcards.sample}_R2.unpaired.fastq "
-        "ILLUMINACLIP:TruSeq3-PE-2.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:50"
 
 # --- Сборка генома ---
 rule assemble_megahit:
