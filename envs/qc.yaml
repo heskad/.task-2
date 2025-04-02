@@ -1,0 +1,13 @@
+name: qc
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - fastqc=0.12.1
+  - trimmomatic=0.39
+  - cutadapt=4.4
+  - multiqc=1.14
+  - seqtk=1.3
+  - porechop=0.2.4       # Для Nanopore
+  - nanofilt=2.8.0       # Для Nanopore

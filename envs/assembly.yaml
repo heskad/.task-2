@@ -1,0 +1,11 @@
+name: assembly
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - megahit=1.2.9        # Для Illumina
+  - spades=3.15.5        # Альтернатива (требует больше RAM)
+  - flye=2.9.2           # Для Nanopore/PacBio
+  - canu=2.2             # Альтернатива для длинных чтений
+  - unicycler=0.5.0      # Для гибридной сборки

@@ -1,0 +1,15 @@
+name: binning
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - metabat2=2.15
+  - concoct=1.1.0
+  - kraken2=2.1.2
+  - bracken=2.8
+  - kaiju=1.9.2
+  - blobtools=2.6.4
+  - eukrep=1.2.0
+  - samtools=1.17
+  - bwa-mem2=2.2.1

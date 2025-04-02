@@ -1,0 +1,10 @@
+name: annotation
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - prokka=1.14.6
+  - busco=5.4.7
+  - blast=2.14.0
+  - quast=5.2.0
