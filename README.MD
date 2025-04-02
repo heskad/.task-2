@@ -14,6 +14,25 @@
 
 ---
 
+## Установка
+
+### Предварительные требования
+- прописать все пути до начала использования пайплайна в **config.yaml**
+- [Miniconda/Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
+- Рекомендуется Mamba для ускорения:
+
+```bash
+conda install -n base -c conda-forge mamba
+---
+
+git clone https://github.com/heskad/.task-2
+cd .task-2
+cd envs
+chmod +x install_envs.sh
+./install_envs.sh
+```
+---
+
 ## Контроль качества
 
 ### FastQC анализ
@@ -49,26 +68,12 @@ fastqc -o qc/fastqc/trimmed/ qc/trimmed/*.trimmed.fastq
 
 ---
 
-## Установка
-
-### Предварительные требования
-- [Miniconda/Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/)
-- Рекомендуется Mamba для ускорения:
+запуск пайплайна
 
 ```bash
-conda install -n base -c conda-forge mamba
----
-
-git clone https://github.com/heskad/.task-2
-cd .task-2
-cd envs
-chmod +x install_envs.sh
-./install_envs.sh
----
-
 Snakemake -j <"кол-во задач"> 
-
 ```
+
 
 
 ## Этапы анализа
